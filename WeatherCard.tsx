@@ -65,7 +65,7 @@ export class WeatherCard extends Component<WeatherCardProps> {
         return (
             <View br20
                 style={{
-                    width: Global.ScreenDimensions.width - 2 * Global.CardSpacing, height: 150,
+                    width: Global.ScreenDimensions.width - 2 * Global.Spacing, height: 150,
                     backgroundColor: '#fff',
                     padding: padding,
                     ...Platform.select({

@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react'
+import { AppState } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { View } from 'react-native-ui-lib'
 
 import { Header } from './Header'
 import { WeatherList } from './WeatherList'
-import { Cities, WeatherListItem } from './Context'
+import * as Global from './Global'
+import { AddButton } from './AddButton'
+import { AddView } from './AddView'
 
 export default function App() {
-  const [data, setData] = useState([] as WeatherListItem[])
+  const [data, setData] = useState([] as Global.WeatherListItem[])
+  const [show, setShow] = useState(false)
+  const [text, setText] = useState('')
+  const [searchData, setSearchData] = useState([] as Global.SearchItemProps[])
 
   useEffect(() => {
     AsyncStorage.getItem('Holnapp').then((result) => {
@@ -15,17 +21,28 @@ export default function App() {
         setData(JSON.parse(result))
       }
     })
-    setData([{ id: 'Budapest47.4979937:19.0403594', name: 'Budapest', coords: { lat: 47.4979937, lon: 19.0403594 } },
-    { id: 'Balatonalmádi47.030277:', name: 'Balatonalmádi', coords: { lat: 47.030277, lon: 18.0155756 } }])
   }, [])
 
+  AppState.addEventListener('change', state => {
+    if (state === 'background' || state === 'inactive') {
+      AsyncStorage.setItem('Holnapp', JSON.stringify(data));
+    }
+  });
 
   return (
-    <Cities.Provider value={{ data: data, setData: setData }}>
-      <Header />
+    <Global.Cities.Provider value={{ data: data, setData: setData }}>
+      <Header title="Holnapp" style={{}} />
       <View flex center>
         <WeatherList />
       </View>
-    </Cities.Provider>
+      <Global.ShowAddView.Provider value={{ show: show, setShow: setShow }}>
+        <Global.SearchText.Provider value={{ text: text, setText: setText }}>
+          <Global.SearchData.Provider value={{ searchData: searchData, setSearchData: setSearchData }}>
+            <AddView />
+            <AddButton />
+          </Global.SearchData.Provider>
+        </Global.SearchText.Provider>
+      </Global.ShowAddView.Provider>
+    </Global.Cities.Provider>
   );
 }
