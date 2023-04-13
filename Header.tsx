@@ -5,7 +5,7 @@ import { Spacing } from './Global'
 
 interface HeaderProps {
     title: string
-    style: TextStyle
+    style?: TextStyle
 }
 
 export function Header({ title, style }: HeaderProps) {

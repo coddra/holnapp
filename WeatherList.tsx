@@ -5,7 +5,7 @@ import * as Global from './Global'
 import { WeatherCard } from './WeatherCard'
 
 export function WeatherList() {
-    let { data, setData } = useContext(Global.Cities)
+    let { data, setData } = useContext(Global.Locations)
 
     return (
         <SortableList

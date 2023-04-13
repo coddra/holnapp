@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { Platform } from 'react-native';
-import { View, Text, Image } from 'react-native-ui-lib'
+import { View, Text, TouchableOpacity } from 'react-native-ui-lib'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 
 import axios from 'axios'
@@ -40,6 +40,7 @@ function getIconName(weatherCode: string): string {
 }
 
 export class WeatherCard extends Component<WeatherCardProps> {
+    static contextType = Global.SingleView
     state = {
         temperature: null,
         weather: null,
@@ -60,10 +61,11 @@ export class WeatherCard extends Component<WeatherCardProps> {
     }
 
     render() {
-        const { name } = this.props;
+        const { name } = this.props
+        const setSingleView = this.context.setSingleView
 
         return (
-            <View br20
+            <TouchableOpacity br20
                 style={{
                     width: Global.ScreenDimensions.width - 2 * Global.Spacing, height: 150,
                     backgroundColor: '#fff',
@@ -76,12 +78,17 @@ export class WeatherCard extends Component<WeatherCardProps> {
                             elevation: 4,
                         },
                     })
-                }}>
+                }}
+                onPress={() => {
+                    setSingleView(() => this.props)
+                }
+
+                }>
                 <Text style={{ fontSize: 22, fontWeight: '600' }}>{name}</Text>
                 {this.state.weather && <Text>{this.state.weather}</Text>}
                 {this.state.temperature && <Text style={{ fontSize: 28, fontWeight: '600', position: 'absolute', bottom: padding, right: padding }}>{this.state.temperature} °C</Text>}
                 {this.state.icon && <MaterialCommunityIcons name={this.state.icon} style={{ fontSize: 44, position: 'absolute', top: padding, right: padding }} />}
-            </View>
+            </TouchableOpacity>
         )
     }
 }

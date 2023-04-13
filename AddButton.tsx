@@ -5,9 +5,11 @@ import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import * as Global from './Global'
 
 export function AddButton() {
+    const { data } = useContext(Global.Locations)
     const { show, setShow } = useContext(Global.ShowAddView)
     const { setText } = useContext(Global.SearchText)
-    const { setSearchData } = useContext(Global.SearchData)
+    const { setSearchResult } = useContext(Global.SearchResult)
+    const { setFinalData } = useContext(Global.FinalData)
 
     const opacity = useAnimatedStyle(() => {
         return {
@@ -19,7 +21,8 @@ export function AddButton() {
     const onPress = () => {
         setShow(() => true)
         setText(() => '')
-        setSearchData(() => [])
+        setSearchResult(() => [])
+        setFinalData(() => [...data])
     }
 
     return (

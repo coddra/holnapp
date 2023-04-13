@@ -3,18 +3,16 @@ import { Checkbox, View } from 'react-native-ui-lib'
 
 import * as Global from './Global'
 
-export function SearchItem({ id, name, country, coords }: Global.SearchItemProps) {
-    const { data, setData } = useContext(Global.Cities)
-    const [added, setAdded] = useState(data.some(d => d.id === id))
+export function SelectorItem({ id, name, country, coords }: Global.WeatherListItem) {
+    const { finalData, setFinalData } = useContext(Global.FinalData)
+    const [added, setAdded] = useState(finalData.some(d => d.id === id))
 
     const onValueChanged = (value: boolean) => {
         setAdded(value)
         if (value) {
-            setData(d => [...d, { id: id, name: name, coords: coords }])
+            setFinalData(d => [...d, { id: id, name: name, country: country, coords: coords }])
         } else {
-            setData(d => {
-                return d.filter(data => data.id !== id)
-            })
+            setFinalData(d => d.filter(finalData => finalData.id !== id))
         }
     }
 
