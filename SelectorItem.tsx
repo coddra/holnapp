@@ -1,10 +1,10 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Checkbox, View } from 'react-native-ui-lib'
 
 import * as Global from './Global'
 
 export function SelectorItem({ id, name, country, coords }: Global.WeatherListItem) {
-    const { finalData, setFinalData } = useContext(Global.FinalData)
+    const { finalData, setFinalData } = Global.useListViewContext()
     const [added, setAdded] = useState(finalData.some(d => d.id === id))
 
     const onValueChanged = (value: boolean) => {

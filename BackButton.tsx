@@ -5,18 +5,17 @@ import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import * as Global from './Global'
 
 export function BackButton() {
-    const { show, setShow } = useContext(Global.ShowAddView)
     const { setData } = useContext(Global.Locations)
-    const { finalData } = useContext(Global.FinalData)
+    const { showAddView, setShowAddView, finalData } = Global.useListViewContext()
 
     const opacity = useAnimatedStyle(() => {
         return {
-            opacity: withTiming(show ? 1 : 0, { duration: Global.AnimationLength }),
+            opacity: withTiming(showAddView ? 1 : 0, { duration: Global.AnimationLength }),
         };
     });
 
     const onPress = () => {
-        setShow(() => false)
+        setShowAddView(() => false)
         setData(() => [...finalData])
     }
 

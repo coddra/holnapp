@@ -6,21 +6,18 @@ import * as Global from './Global'
 
 export function AddButton() {
     const { data } = useContext(Global.Locations)
-    const { show, setShow } = useContext(Global.ShowAddView)
-    const { setText } = useContext(Global.SearchText)
-    const { setSearchResult } = useContext(Global.SearchResult)
-    const { setFinalData } = useContext(Global.FinalData)
+    const { showAddView, setShowAddView, setSearchText, setSearchResult, setFinalData } = Global.useListViewContext()
 
     const opacity = useAnimatedStyle(() => {
         return {
-            opacity: withTiming(show ? 0 : 1, { duration: Global.AnimationLength }),
-            bottom: withTiming(show ? Global.ButtonSize : 0, { duration: Global.AnimationLength })
+            opacity: withTiming(showAddView ? 0 : 1, { duration: Global.AnimationLength }),
+            bottom: withTiming(showAddView ? Global.ButtonSize : 0, { duration: Global.AnimationLength })
         };
     });
 
     const onPress = () => {
-        setShow(() => true)
-        setText(() => '')
+        setShowAddView(() => true)
+        setSearchText(() => '')
         setSearchResult(() => [])
         setFinalData(() => [...data])
     }

@@ -1,15 +1,13 @@
-import { useContext } from 'react'
 import { TextField } from 'react-native-ui-lib'
 import axios from 'axios'
 
 import * as Global from './Global'
 
 export function SearchField() {
-    const { setSearchResult } = useContext(Global.SearchResult)
-    const { text, setText } = useContext(Global.SearchText)
+    const { setSearchResult, searchText, setSearchText } = Global.useListViewContext()
 
     const onChangeText = (t: string) => {
-        setText(() => t)
+        setSearchText(() => t)
         if (t.length < 3) {
             return
         }
@@ -25,7 +23,7 @@ export function SearchField() {
 
     return (
         <TextField
-            value={text}
+            value={searchText}
             style={{ color: '#fff' }}
             returnKeyType='done'
             placeholder={'Search'} floatingPlaceholder

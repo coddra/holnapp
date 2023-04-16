@@ -9,10 +9,6 @@ import { AddView } from './AddView'
 import { Header } from './Header'
 
 export function ListView() {
-    const [show, setShow] = useState(false)
-    const [text, setText] = useState('')
-    const [searchResult, setSearchResult] = useState([] as Global.WeatherListItem[])
-    const [finalData, setFinalData] = useState([] as Global.WeatherListItem[])
     const { singleView } = useContext(Global.SingleView)
 
     const slide = useAnimatedStyle(() => {
@@ -32,16 +28,10 @@ export function ListView() {
             <View flex center>
                 <WeatherList />
             </View>
-            <Global.ShowAddView.Provider value={{ show: show, setShow: setShow }}>
-                <Global.SearchText.Provider value={{ text: text, setText: setText }}>
-                    <Global.SearchResult.Provider value={{ searchResult: searchResult, setSearchResult: setSearchResult }}>
-                        <Global.FinalData.Provider value={{ finalData: finalData, setFinalData: setFinalData }}>
-                            <AddView />
-                            <AddButton />
-                        </Global.FinalData.Provider>
-                    </Global.SearchResult.Provider>
-                </Global.SearchText.Provider>
-            </Global.ShowAddView.Provider>
+            <Global.ListViewContextProvider>
+                <AddView />
+                <AddButton />
+            </Global.ListViewContextProvider>
         </Animated.View>
     )
 }
